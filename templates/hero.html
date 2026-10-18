@@ -1,0 +1,79 @@
+  <!-- Hero Section -->
+  <section class="relative z-10 pt-16 pb-20 lg:pt-24 lg:pb-32 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    
+    <!-- Top System Pulse -->
+    <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-emerald-500/35 bg-emerald-950/40 backdrop-blur-md mb-8">
+      <span class="relative flex h-2.5 w-2.5">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+      </span>
+      <span class="text-xs font-mono font-bold text-emerald-300 tracking-wider uppercase">
+        KIẾN TRÚC TITANIUM 0.1.7 • BẢN PHÁT HÀNH CHÍNH THỨC
+      </span>
+    </div>
+
+    <!-- Main Headline with 100% Vietnamese Font -->
+    <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white uppercase leading-[1.15] mb-6">
+      KHỞI CHẠY MINECRAFT <br>
+      <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent text-glow">
+        KHÔNG GIỚI HẠN TỐC ĐỘ
+      </span>
+    </h1>
+
+    <p class="text-base sm:text-lg lg:text-xl text-slate-300 font-normal max-w-3xl mx-auto mb-10 leading-relaxed">
+      Hệ sinh thái khởi chạy Minecraft tối thượng được viết lại toàn diện. Tải modpack song song từ Modrinth & CurseForge, tinh chỉnh JVM Flags chống giật lag, tích hợp sẵn Iris Shaders và bảo mật tài khoản cao cấp.
+    </p>
+
+    <!-- Download Buttons -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+      <a href="https://github.com/gbetokuon-stack/Launcher/releases/download/v0.1.7/AcousticForge-Setup-0.1.7.exe" onclick="playSfx('launch')" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-black font-extrabold text-base flex items-center justify-center gap-3 shadow-[0_0_35px_rgba(16,185,129,0.4)] transition-all transform hover:-translate-y-0.5">
+        <i data-lucide="download" class="w-5 h-5"></i>
+        <span>TẢI BẢN CÀI ĐẶT (Setup.exe - 156.9 MB)</span>
+      </a>
+
+      <a href="https://github.com/gbetokuon-stack/Launcher/releases/download/v0.1.7/AcousticForge-Portable-0.1.7.exe" onclick="playSfx('launch')" class="w-full sm:w-auto px-7 py-4 rounded-xl glass-panel glass-card-hover font-bold text-slate-200 text-base flex items-center justify-center gap-3">
+        <i data-lucide="archive" class="w-5 h-5 text-emerald-400"></i>
+        <span>BẢN DI ĐỘNG (Portable.exe - 156.5 MB)</span>
+      </a>
+    </div>
+
+    <!-- Quick Run Terminal Bar -->
+    <div class="max-w-2xl mx-auto glass-panel p-2.5 rounded-xl border border-emerald-500/25 flex items-center justify-between text-xs font-mono shadow-xl">
+      <div class="flex items-center gap-2 overflow-x-auto whitespace-nowrap pl-2 pr-3 text-slate-400">
+        <span class="text-emerald-400 font-bold">PS &gt;</span>
+        <span class="text-slate-200 font-semibold">irm https://git.new/acousticforge | iex</span>
+      </div>
+      <button onclick="copyInstallCmd()" class="px-3.5 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 transition flex items-center gap-1.5 shrink-0 font-bold">
+        <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+        <span>SAO CHÉP</span>
+      </button>
+    </div>
+
+    <!-- Live Telemetry Badges -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-4xl mx-auto mt-12 text-left">
+      <div class="p-3.5 rounded-xl glass-panel border border-emerald-500/20">
+        <div class="text-[10px] font-mono uppercase text-slate-400 font-bold mb-1">KIẾN TRÚC LÕI</div>
+        <div class="text-sm font-mono font-bold text-emerald-400 flex items-center gap-1.5">
+          <i data-lucide="cpu" class="w-4 h-4"></i> ELECTRON 42 x64
+        </div>
+      </div>
+      <div class="p-3.5 rounded-xl glass-panel border border-emerald-500/20">
+        <div class="text-[10px] font-mono uppercase text-slate-400 font-bold mb-1">TỐI ƯU HÓA FPS</div>
+        <div class="text-sm font-mono font-bold text-cyan-400 flex items-center gap-1.5">
+          <i data-lucide="gauge" class="w-4 h-4"></i> SODIUM + IRIS
+        </div>
+      </div>
+      <div class="p-3.5 rounded-xl glass-panel border border-emerald-500/20">
+        <div class="text-[10px] font-mono uppercase text-slate-400 font-bold mb-1">GARBAGE COLLECTOR</div>
+        <div class="text-sm font-mono font-bold text-emerald-400 flex items-center gap-1.5">
+          <i data-lucide="zap" class="w-4 h-4"></i> ZERO-DROP G1GC
+        </div>
+      </div>
+      <div class="p-3.5 rounded-xl glass-panel border border-emerald-500/20">
+        <div class="text-[10px] font-mono uppercase text-slate-400 font-bold mb-1">KHO MOD ĐỒNG BỘ</div>
+        <div class="text-sm font-mono font-bold text-yellow-400 flex items-center gap-1.5">
+          <i data-lucide="box" class="w-4 h-4"></i> DUAL-API SYNC
+        </div>
+      </div>
+    </div>
+  </section>

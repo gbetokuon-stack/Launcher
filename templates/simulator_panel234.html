@@ -1,0 +1,84 @@
+        <!-- Tab 2: RAM & JVM Control -->
+        <div id="panel-ram" class="space-y-5 hidden">
+          <div class="flex items-center justify-between pb-3 border-b border-cyber-border">
+            <div>
+              <h3 class="text-sm font-bold text-white">Bảng Phân Bổ Heap RAM & Garbage Collector</h3>
+              <p class="text-xs text-slate-400">Tự động cấu hình heap size phù hợp để triệt tiêu khựng hình (micro-stutter)</p>
+            </div>
+            <span id="ram-indicator" class="text-base font-mono text-emerald-400 font-bold bg-emerald-500/10 px-3 py-1 rounded-lg border border-emerald-500/30">8.0 GB RAM</span>
+          </div>
+
+          <div class="space-y-3">
+            <input type="range" id="ram-slider-input" min="2" max="32" value="8" step="1" oninput="handleRamSlider(this.value)" class="w-full accent-emerald-500 bg-slate-800 h-2.5 rounded-lg cursor-pointer">
+            <div class="flex justify-between text-xs font-mono text-slate-400 font-semibold">
+              <span>2 GB (Vanilla Nhẹ)</span>
+              <span>8 GB (Modpack Chuẩn)</span>
+              <span>16 GB (Shader + 300 Mods)</span>
+              <span>32 GB (Max)</span>
+            </div>
+          </div>
+
+          <!-- GC Selector -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2">
+            <button onclick="selectGc('g1gc')" id="gc-g1gc" class="gc-btn active p-3 rounded-xl border border-emerald-500 bg-emerald-500/20 text-left text-xs font-mono transition">
+              <div class="font-bold text-white mb-1">Aikar's G1GC Preset</div>
+              <p class="text-[11px] text-emerald-300">Tối ưu độ trễ thấp & đa luồng cho mọi máy tính</p>
+            </button>
+            <button onclick="selectGc('shenandoah')" id="gc-shenandoah" class="gc-btn p-3 rounded-xl border border-cyber-border bg-cyber-card text-left text-xs font-mono transition">
+              <div class="font-bold text-slate-300 mb-1">Shenandoah GC</div>
+              <p class="text-[11px] text-slate-400">Thu dọn rác song song tức thì cho CPU nhiều luồng</p>
+            </button>
+            <button onclick="selectGc('zgc')" id="gc-zgc" class="gc-btn p-3 rounded-xl border border-cyber-border bg-cyber-card text-left text-xs font-mono transition">
+              <div class="font-bold text-slate-300 mb-1">ZGC Low-Latency</div>
+              <p class="text-[11px] text-slate-400">Độ dừng dưới 1ms cho máy tính trên 16GB RAM</p>
+            </button>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-black/90 border border-emerald-500/20 text-xs font-mono">
+            <span class="text-slate-400 font-bold block mb-1.5">// LỆNH JVM ĐƯỢC SINH TỰ ĐỘNG:</span>
+            <code id="full-jvm-args" class="text-emerald-400 block break-all leading-relaxed">-XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200 -XX:+UnlockExperimentalVMOptions -XX:+AlwaysPreTouch -Xms8G -Xmx8G</code>
+          </div>
+        </div>
+
+        <!-- Tab 3: Shaders Engine -->
+        <div id="panel-shaders" class="space-y-4 hidden">
+          <div class="flex items-center justify-between pb-3 border-b border-cyber-border">
+            <span class="text-sm font-bold text-white">Kho Shader Iris Tích Hợp Sẵn</span>
+            <span class="text-xs font-mono text-emerald-400">DirectX 12 / Vulkan Fast Pipeline</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="p-4 rounded-xl bg-cyber-card border border-emerald-500/40 flex items-center justify-between">
+              <div>
+                <div class="text-sm font-bold text-white">Complementary Reimagined</div>
+                <div class="text-xs text-slate-400 mt-0.5">Ánh sáng thể tích, mây 3D, bóng đổ chân thực</div>
+              </div>
+              <span class="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-mono text-xs font-bold">KÍCH HOẠT</span>
+            </div>
+            <div class="p-4 rounded-xl bg-cyber-card border border-cyber-border flex items-center justify-between">
+              <div>
+                <div class="text-sm font-bold text-white">BSL Shaders v8.2</div>
+                <div class="text-xs text-slate-400 mt-0.5">Màu sắc điện ảnh tươi sáng, phản chiếu mặt nước</div>
+              </div>
+              <span class="px-3 py-1 rounded-lg bg-slate-800 text-slate-400 font-mono text-xs font-bold">SẴN SÀNG</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Live Console Boot Stream -->
+        <div id="panel-console" class="space-y-3 hidden">
+          <div class="flex items-center justify-between pb-2 border-b border-cyber-border text-xs font-mono">
+            <span class="text-slate-300 font-bold">[TITANIUM CONSOLE - THỜI GIAN THỰC]</span>
+            <span id="console-status-text" class="text-emerald-400 font-bold">TRẠNG THÁI: SẴN SÀNG</span>
+          </div>
+          <div id="terminal-screen" class="font-mono text-xs text-slate-300 space-y-1 bg-black/95 p-4 rounded-xl border border-slate-800 h-52 overflow-y-auto">
+            <p class="text-slate-400">[00:00:01] AcousticForge Titanium Core v0.1.7 initialization sequence...</p>
+            <p class="text-emerald-400">[00:00:01] Hardware detected: High-performance x64 JVM detected.</p>
+            <p class="text-cyan-400">[00:00:02] Authenticated Microsoft Session Token successfully.</p>
+            <p class="text-slate-400">[00:00:02] Loading mods and verifying SHA-256 signatures...</p>
+            <p class="text-emerald-300 font-bold">[00:00:03] Sẵn sàng! Hãy bấm nút 'KHỞI ĐỘNG MÔ PHỎNG' ở tab Instance để kiểm tra chuỗi boot thực tế.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>

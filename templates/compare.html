@@ -1,0 +1,56 @@
+  <!-- Visual Shader Comparison Section -->
+  <section id="compare" class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-28">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <span class="text-xs font-mono text-cyan-400 uppercase tracking-widest font-bold block mb-2">ĐỒ HỌA THẾ HỆ MỚI</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-bold text-white uppercase">So Sánh Trực Quan Đồ Họa</h2>
+      <p class="text-slate-400 text-sm mt-2">Kéo thanh trượt để cảm nhận sự khác biệt đột phá giữa Minecraft mặc định và khi kích hoạt hệ thống Iris Shaders trên AcousticForge Titanium.</p>
+    </div>
+
+    <div class="glass-panel p-3 sm:p-5 rounded-2xl border border-emerald-500/30 shadow-2xl">
+      <!-- Interactive Comparison Slider Container -->
+      <div id="compare-box" class="relative w-full h-80 sm:h-[420px] rounded-xl overflow-hidden cursor-ew-resize select-none border border-cyber-border">
+        
+        <!-- After Layer (Titanium Iris Shader - Ray Tracing Emerald Bloom) -->
+        <div class="absolute inset-0 bg-gradient-to-tr from-[#06181b] via-[#0b2923] to-[#124434] flex items-center justify-center">
+          <div class="absolute inset-0 cyber-grid opacity-30"></div>
+          <!-- Stylized High-End Render Graphics -->
+          <div class="relative text-center px-6 z-10">
+            <span class="px-3.5 py-1.5 rounded-full bg-emerald-500/25 border border-emerald-400 text-emerald-300 font-mono text-xs font-bold tracking-wider uppercase mb-4 inline-block shadow-[0_0_15px_rgba(16,185,129,0.5)]">
+              TITANIUM + IRIS SHADERS • 240 FPS ULTRA
+            </span>
+            <h3 class="font-display text-3xl sm:text-5xl font-extrabold text-white text-glow mb-2">ÁNH SÁNG THỂ TÍCH & BÓNG ĐỔ RAY-TRACING</h3>
+            <p class="text-emerald-200 text-sm sm:text-base max-w-xl mx-auto font-sans">Mặt nước phản chiếu thực tế, mây thể tích 3D, bloom ánh sáng hoàng hôn và đổ bóng động theo vị trí mặt trời.</p>
+          </div>
+          <!-- Decorative particles -->
+          <div class="absolute top-8 right-12 w-28 h-28 bg-emerald-400/20 rounded-full blur-2xl"></div>
+          <div class="absolute bottom-8 left-12 w-36 h-36 bg-cyan-400/20 rounded-full blur-3xl"></div>
+        </div>
+
+        <!-- Before Layer (Vanilla Default Flat 35 FPS) -->
+        <div id="before-layer" class="absolute inset-0 bg-[#151c20] overflow-hidden" style="width: 50%;">
+          <div class="absolute inset-0 w-full h-full min-w-[600px] flex items-center justify-center bg-gradient-to-tr from-[#121619] to-[#222b30]">
+            <div class="relative text-center px-6 z-10">
+              <span class="px-3.5 py-1.5 rounded-full bg-slate-800 border border-slate-600 text-slate-300 font-mono text-xs font-bold tracking-wider uppercase mb-4 inline-block">
+                VANILLA MẶC ĐỊNH • 35-45 FPS
+              </span>
+              <h3 class="font-display text-3xl sm:text-5xl font-extrabold text-slate-400 mb-2">ĐỒ HỌA PHẲNG KHÔNG SHADER</h3>
+              <p class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto font-sans">Ánh sáng khối vuông đơn giản, mặt nước đục mờ, không bóng đổ động, dễ tụt khung hình khi tải chunk.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slider Draggable Bar -->
+        <div id="slider-handle" class="absolute top-0 bottom-0 w-1 bg-emerald-400 cursor-ew-resize flex items-center justify-center shadow-[0_0_20px_#10b981]" style="left: 50%;">
+          <div class="w-8 h-8 rounded-full bg-black border-2 border-emerald-400 flex items-center justify-center shadow-lg -ml-0.5">
+            <i data-lucide="chevrons-left-right" class="w-4 h-4 text-emerald-400"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between text-xs font-mono text-slate-400 pt-3 px-2">
+        <span>← KÉO VỀ TRÁI: HIỂN THỊ TITANIUM SHADER</span>
+        <span class="text-emerald-400 font-bold">KÉO THANH ĐỂ SO SÁNH TRỰC QUAN</span>
+        <span>KÉO VỀ PHẢI: HIỂN THỊ VANILLA →</span>
+      </div>
+    </div>
+  </section>

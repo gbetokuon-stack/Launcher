@@ -1,0 +1,107 @@
+    // 3. Visual Comparison Slider
+    const compareBox = document.getElementById('compare-box');
+    const beforeLayer = document.getElementById('before-layer');
+    const sliderHandle = document.getElementById('slider-handle');
+    let isDragging = false;
+
+    function setSliderPos(x) {
+      if (!compareBox || !beforeLayer || !sliderHandle) return;
+      const rect = compareBox.getBoundingClientRect();
+      let pos = (x - rect.left) / rect.width;
+      if (pos < 0.05) pos = 0.05;
+      if (pos > 0.95) pos = 0.95;
+      const pct = (pos * 100).toFixed(2) + '%';
+      beforeLayer.style.width = pct;
+      sliderHandle.style.left = pct;
+    }
+
+    if (compareBox) {
+      compareBox.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        setSliderPos(e.clientX);
+        playSfx('click');
+      });
+      window.addEventListener('mousemove', (e) => {
+        if (isDragging) setSliderPos(e.clientX);
+      });
+      window.addEventListener('mouseup', () => {
+        isDragging = false;
+      });
+
+      compareBox.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        setSliderPos(e.touches[0].clientX);
+      });
+      window.addEventListener('touchmove', (e) => {
+        if (isDragging) setSliderPos(e.touches[0].clientX);
+      });
+      window.addEventListener('touchend', () => {
+        isDragging = false;
+      });
+    }
+
+    // 4. Simulator Tabs
+    function switchTab(tabId) {
+      playSfx('click');
+      ['instances', 'ram', 'shaders', 'console'].forEach(id => {
+        const btn = document.getElementById('tab-' + id);
+        const panel = document.getElementById('panel-' + id);
+        if (id === tabId) {
+          btn.classList.add('active', 'text-emerald-400');
+          btn.classList.remove('text-slate-400');
+          panel.classList.remove('hidden');
+        } else {
+          btn.classList.remove('active', 'text-emerald-400');
+          btn.classList.add('text-slate-400');
+          panel.classList.add('hidden');
+        }
+      });
+    }
+
+    // 5. Mod Toggle & Dynamic Forecast
+    const modState = {
+      sodium: true,
+      iris: true,
+      lithium: true,
+      dh: false
+    };
+
+    function toggleMod(modKey) {
+      playSfx('toggle');
+      modState[modKey] = !modState[modKey];
+      const btn = document.getElementById('mod-' + modKey);
+      const icon = btn.querySelector('svg') || btn.querySelector('i');
+      
+      if (modState[modKey]) {
+        btn.classList.add('active', 'border-emerald-500', 'bg-emerald-500/20');
+        btn.classList.remove('border-cyber-border', 'bg-cyber-card');
+        btn.querySelector('.text-slate-300')?.classList.replace('text-slate-300', 'text-white');
+      } else {
+        btn.classList.remove('active', 'border-emerald-500', 'bg-emerald-500/20');
+        btn.classList.add('border-cyber-border', 'bg-cyber-card');
+        btn.querySelector('.text-white')?.classList.replace('text-white', 'text-slate-300');
+      }
+      lucide.createIcons();
+      updateSimStats();
+    }
+
+    function updateSimStats() {
+      let activeCount = Object.values(modState).filter(Boolean).length;
+      document.getElementById('mod-count-badge').innerText = activeCount + ' mod được chọn';
+
+      let baseFps = 45;
+      let ramNeed = 4.0;
+      if (modState.sodium) baseFps += 180;
+      if (modState.iris) baseFps -= 20; // Shaders consume GPU
+      if (modState.lithium) baseFps += 35;
+      if (modState.dh) {
+        baseFps -= 30;
+        ramNeed += 3.5;
+      }
+
+      const version = document.getElementById('sim-version').value;
+      if (version === '1.12.2') baseFps += 60;
+
+      document.getElementById('sim-fps').innerText = \`\${baseFps} - \${baseFps + 80} FPS\`;
+      document.getElementById('sim-ram-need').innerText = \`\${ramNeed.toFixed(1)} GB RAM\`;
+    }

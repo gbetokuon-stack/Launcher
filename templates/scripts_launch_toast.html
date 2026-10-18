@@ -1,0 +1,97 @@
+    // 6. RAM & JVM Flags Control
+    let selectedGc = 'g1gc';
+    let selectedRam = 8;
+
+    function handleRamSlider(val) {
+      selectedRam = val;
+      document.getElementById('ram-indicator').innerText = val + '.0 GB RAM';
+      updateJvmDisplay();
+    }
+
+    function selectGc(gc) {
+      playSfx('click');
+      selectedGc = gc;
+      ['g1gc', 'shenandoah', 'zgc'].forEach(id => {
+        const btn = document.getElementById('gc-' + id);
+        if (id === gc) {
+          btn.classList.add('active', 'border-emerald-500', 'bg-emerald-500/20');
+          btn.classList.remove('border-cyber-border', 'bg-cyber-card');
+        } else {
+          btn.classList.remove('active', 'border-emerald-500', 'bg-emerald-500/20');
+          btn.classList.add('border-cyber-border', 'bg-cyber-card');
+        }
+      });
+      updateJvmDisplay();
+    }
+
+    function updateJvmDisplay() {
+      let gcFlag = '-XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:MaxGCPauseMillis=200';
+      if (selectedGc === 'shenandoah') gcFlag = '-XX:+UseShenandoahGC -XX:ShenandoahGCHeuristics=adaptive';
+      if (selectedGc === 'zgc') gcFlag = '-XX:+UseZGC -XX:+ZGenerational';
+
+      document.getElementById('full-jvm-args').innerText = 
+        \`\${gcFlag} -XX:+UnlockExperimentalVMOptions -XX:+AlwaysPreTouch -Xms\${selectedRam}G -Xmx\${selectedRam}G\`;
+    }
+
+    // 7. Simulated Game Launch Sequence
+    function simulateLaunch() {
+      playSfx('launch');
+      switchTab('console');
+      const terminal = document.getElementById('terminal-screen');
+      const statusText = document.getElementById('console-status-text');
+      statusText.innerText = 'TRẠNG THÁI: ĐANG BIÊN DỊCH VÀ KHỞI ĐỘNG...';
+      statusText.classList.replace('text-emerald-400', 'text-yellow-400');
+
+      terminal.innerHTML = '<p class="text-yellow-400 font-bold">[KHỞI ĐỘNG] Đang chuẩn bị môi trường sandbox...</p>';
+
+      const steps = [
+        { text: '[08:42:01] Phân bổ Heap RAM: ' + selectedRam + ' GB (' + selectedGc.toUpperCase() + ' Engine)...', color: 'text-slate-300', delay: 300 },
+        { text: '[08:42:02] Nạp Mod Fabric: Sodium 0.6.1 + Iris Shaders + Lithium AI...', color: 'text-cyan-400', delay: 700 },
+        { text: '[08:42:03] Khởi chạy đường ống đồ họa Vulkan / DirectX 12...', color: 'text-emerald-300', delay: 1100 },
+        { text: '[08:42:04] Cửa sổ Minecraft 1.21.4 mở thành công! Đạt 240 FPS Ultra.', color: 'text-emerald-400 font-bold', delay: 1500 }
+      ];
+
+      steps.forEach(s => {
+        setTimeout(() => {
+          const p = document.createElement('p');
+          p.className = s.color;
+          p.innerText = s.text;
+          terminal.appendChild(p);
+          terminal.scrollTop = terminal.scrollHeight;
+          playSfx('click');
+        }, s.delay);
+      });
+
+      setTimeout(() => {
+        statusText.innerText = 'TRẠNG THÁI: MINECRAFT ĐANG CHẠY (240 FPS)';
+        statusText.classList.replace('text-yellow-400', 'text-emerald-400');
+        showToast('🚀 Khởi động Minecraft thành công trong 4.2s!');
+      }, 1600);
+    }
+
+    // 8. Toast & Clipboard
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-text').innerText = msg;
+      toast.classList.remove('translate-y-28', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-28', 'opacity-0');
+      }, 3000);
+    }
+
+    function copyInstallCmd() {
+      playSfx('click');
+      const cmd = 'irm https://github.com/gbetokuon-stack/Launcher/releases/download/v0.1.7/AcousticForge-Setup-0.1.7.exe -OutFile AcousticForge-Setup.exe; .\\\\AcousticForge-Setup.exe';
+      navigator.clipboard.writeText(cmd).then(() => {
+        showToast('Đã sao chép lệnh cài đặt PowerShell vào Clipboard!');
+      });
+    }
+
+    // Initial Lucide icons render
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+    lucide.createIcons();
+  </script>
+</body>
+</html>

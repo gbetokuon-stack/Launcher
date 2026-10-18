@@ -1,0 +1,90 @@
+        <!-- Tab 1: Instance & Mod Selection -->
+        <div id="panel-instances" class="space-y-5">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-mono text-slate-400 font-bold mb-1.5 uppercase">1. Phiên Bản Minecraft</label>
+              <select id="sim-version" onchange="updateSimStats()" class="w-full bg-cyber-card border border-emerald-500/30 rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-emerald-400">
+                <option value="1.21.4">Minecraft 1.21.4 (Mới Nhất)</option>
+                <option value="1.20.1">Minecraft 1.20.1 (Ổn định Modpack)</option>
+                <option value="1.16.5">Minecraft 1.16.5 (Classic Modded)</option>
+                <option value="1.12.2">Minecraft 1.12.2 (GregTech Era)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-mono text-slate-400 font-bold mb-1.5 uppercase">2. Mod Loader</label>
+              <select id="sim-loader" onchange="updateSimStats()" class="w-full bg-cyber-card border border-emerald-500/30 rounded-lg px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-emerald-400">
+                <option value="fabric">Fabric Loader (Tối đa FPS)</option>
+                <option value="neoforge">NeoForge 2026 Engine</option>
+                <option value="forge">Forge Classic</option>
+                <option value="quilt">Quilt Project</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-mono text-slate-400 font-bold mb-1.5 uppercase">3. Đồ Họa / Pipeline</label>
+              <div class="px-3 py-2 rounded-lg bg-cyber-card border border-emerald-500/30 text-xs font-mono text-emerald-400 font-bold flex items-center justify-between">
+                <span>NVIDIA RTX / Vulkan</span>
+                <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mod Toggles Grid -->
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-mono text-slate-300 font-bold uppercase">4. Các Mod Tối Ưu Hóa (Bấm để bật/tắt):</span>
+              <span id="mod-count-badge" class="text-xs font-mono text-emerald-400">3 mod được chọn</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <button onclick="toggleMod('sodium')" id="mod-sodium" class="mod-pill active p-2.5 rounded-lg border border-emerald-500 bg-emerald-500/20 text-xs font-mono text-left transition flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-white">Sodium 0.6</div>
+                  <div class="text-[10px] text-emerald-300">+200% FPS Engine</div>
+                </div>
+                <i data-lucide="check-square" class="w-4 h-4 text-emerald-400"></i>
+              </button>
+
+              <button onclick="toggleMod('iris')" id="mod-iris" class="mod-pill active p-2.5 rounded-lg border border-emerald-500 bg-emerald-500/20 text-xs font-mono text-left transition flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-white">Iris Shaders</div>
+                  <div class="text-[10px] text-emerald-300">Shaders tốc độ cao</div>
+                </div>
+                <i data-lucide="check-square" class="w-4 h-4 text-emerald-400"></i>
+              </button>
+
+              <button onclick="toggleMod('lithium')" id="mod-lithium" class="mod-pill active p-2.5 rounded-lg border border-emerald-500 bg-emerald-500/20 text-xs font-mono text-left transition flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-white">Lithium AI</div>
+                  <div class="text-[10px] text-emerald-300">Tối ưu vật lý/tick</div>
+                </div>
+                <i data-lucide="check-square" class="w-4 h-4 text-emerald-400"></i>
+              </button>
+
+              <button onclick="toggleMod('dh')" id="mod-dh" class="mod-pill p-2.5 rounded-lg border border-cyber-border bg-cyber-card text-xs font-mono text-left transition flex items-center justify-between">
+                <div>
+                  <div class="font-bold text-slate-300">Distant Horizons</div>
+                  <div class="text-[10px] text-slate-400">Tầm nhìn 256 Chunks</div>
+                </div>
+                <i data-lucide="square" class="w-4 h-4 text-slate-500"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Realtime Forecast & Launch Button -->
+          <div class="pt-3 border-t border-cyber-border flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-6 text-xs font-mono">
+              <div>
+                <span class="text-slate-400 block font-bold">DỰ ĐOÁN FPS:</span>
+                <span id="sim-fps" class="text-emerald-400 font-extrabold text-lg">240 - 320 FPS</span>
+              </div>
+              <div>
+                <span class="text-slate-400 block font-bold">RAM YÊU CẦU:</span>
+                <span id="sim-ram-need" class="text-cyan-400 font-extrabold text-lg">6.0 GB RAM</span>
+              </div>
+            </div>
+
+            <button onclick="simulateLaunch()" id="launch-sim-btn" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-black font-extrabold text-xs sm:text-sm font-display tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.35)] transition">
+              <i data-lucide="play" class="w-4 h-4 fill-black"></i>
+              <span>KHỞI ĐỘNG MÔ PHỎNG</span>
+            </button>
+          </div>
+        </div>

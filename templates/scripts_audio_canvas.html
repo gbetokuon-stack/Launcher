@@ -1,0 +1,156 @@
+  <!-- Interactive Engine Scripts Part 1 -->
+  <script>
+    // 1. Web Audio API Sound Synthesizer (Zero External MP3s Needed)
+    let audioCtx = null;
+    let sfxEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function toggleAudio() {
+      sfxEnabled = !sfxEnabled;
+      const icon = document.getElementById('sfx-icon');
+      const status = document.getElementById('sfx-status');
+      if (sfxEnabled) {
+        status.innerText = 'SFX BẬT';
+        status.parentElement.classList.add('text-emerald-400');
+        status.parentElement.classList.remove('text-slate-500');
+        playSfx('click');
+        showToast('Đã BẬT âm thanh tương tác!');
+      } else {
+        status.innerText = 'SFX TẮT';
+        status.parentElement.classList.remove('text-emerald-400');
+        status.parentElement.classList.add('text-slate-500');
+        showToast('Đã TẮT âm thanh tương tác!');
+      }
+    }
+
+    function playSfx(type) {
+      if (!sfxEnabled) return;
+      try {
+        initAudio();
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === 'click') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(800, now);
+          osc.frequency.exponentialRampToValueAtTime(1400, now + 0.04);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.linearRampToValueAtTime(0.001, now + 0.04);
+          osc.start(now);
+          osc.stop(now + 0.04);
+        } else if (type === 'toggle') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(520, now);
+          osc.frequency.exponentialRampToValueAtTime(980, now + 0.07);
+          gain.gain.setValueAtTime(0.09, now);
+          gain.gain.linearRampToValueAtTime(0.001, now + 0.07);
+          osc.start(now);
+          osc.stop(now + 0.07);
+        } else if (type === 'launch') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.exponentialRampToValueAtTime(880, now + 0.25);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.linearRampToValueAtTime(0.001, now + 0.25);
+          osc.start(now);
+          osc.stop(now + 0.25);
+        }
+      } catch (e) {}
+    }
+
+    // 2. Interactive Canvas Matrix Constellation
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+    const mouse = { x: -1000, y: -1000, radius: 150 };
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class CyberParticle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.size = Math.random() * 2 + 0.7;
+        this.baseX = this.x;
+        this.baseY = this.y;
+        this.density = (Math.random() * 20) + 6;
+        this.color = Math.random() > 0.35 ? '#10b981' : '#06b6d4';
+        this.alpha = Math.random() * 0.45 + 0.2;
+      }
+      draw() {
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.alpha;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fill();
+      }
+      update() {
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < mouse.radius) {
+          let force = (mouse.radius - dist) / mouse.radius;
+          this.x -= (dx / dist) * force * this.density;
+          this.y -= (dy / dist) * force * this.density;
+        } else {
+          if (this.x !== this.baseX) this.x -= (this.x - this.baseX) / 22;
+          if (this.y !== this.baseY) this.y -= (this.y - this.baseY) / 22;
+        }
+      }
+    }
+
+    const count = Math.min(Math.floor((window.innerWidth * window.innerHeight) / 13000), 75);
+    for (let i = 0; i < count; i++) {
+      particles.push(new CyberParticle());
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+    window.addEventListener('mouseleave', () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+    });
+
+    function renderNebula() {
+      ctx.clearRect(0, 0, width, height);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        for (let j = i + 1; j < particles.length; j++) {
+          let dx = particles[i].x - particles[j].x;
+          let dy = particles[i].y - particles[j].y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 115) {
+            ctx.beginPath();
+            ctx.strokeStyle = '#10b981';
+            ctx.globalAlpha = (1 - dist / 115) * 0.16;
+            ctx.lineWidth = 0.8;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(renderNebula);
+    }
+    renderNebula();
