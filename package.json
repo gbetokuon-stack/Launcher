@@ -43,6 +43,7 @@
     "appId": "com.acoustic.acousticforge",
     "productName": "AcousticForge",
     "copyright": "Copyright © 2026 Acoustic",
+    "npmRebuild": false,
     "asar": true,
     "directories": {
       "output": "dist-electron",

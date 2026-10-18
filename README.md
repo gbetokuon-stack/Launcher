@@ -96,5 +96,5 @@ Sau khi hoàn tất, các file thực thi sẽ được xuất tại thư mục 
 ---
 
 <div align="center">
-  <i>Được xây dựng với niềm đam mê dành cho cộng đồng Minecraft Việt Nam.</i>
+  <i>Được xây dựng dành cho cộng đồng Minecraft Việt Nam.</i>
 </div>
